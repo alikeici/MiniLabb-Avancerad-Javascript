@@ -15,11 +15,11 @@ model user {
 }
 
 model game {
-  game_id  Int     @id @default(autoincrement())
-  host String
-  isActive Boolean
-  gameStart Boolean
-  role Boolean
+  game_id     Int     @id @default(autoincrement())
+  isActive    Boolean
+  gameStart   Boolean
+  host        String
+  role        Boolean
   currentWord String
-  user     user[]
+  user        user[]
 }
