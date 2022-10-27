@@ -59,10 +59,10 @@ route.patch("/:id/end", async (req, res) => {
       game_id: parseInt(req.params.id),
     },
     data: {
-      isActive: false,
+      isActive: true,
       gameStart: false,
       role: false,
-      currentWord: undefined
+      currentWord: ""
     },
   });
 });
