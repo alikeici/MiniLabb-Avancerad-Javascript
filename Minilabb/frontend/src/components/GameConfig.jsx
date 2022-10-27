@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { Alert, Box, Button, Input, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import imageInsider from "./InsiderGame.avif";
-import { useEffect } from "react";
 
 const GameConfig = () => {
   const gameUrl = `http://localhost:5000/game/`;
@@ -125,10 +124,11 @@ const GameConfig = () => {
           mt: 4,
         }}
       >
-        <TextField 
-        InputLabelProps={{sx: {fontSize: 15}}}
-        label="Enter your username" 
-        variant="outlined"  size="small"
+        <TextField
+          InputLabelProps={{ sx: { fontSize: 15 } }}
+          label="Enter your username"
+          variant="outlined"
+          size="small"
           value={username}
           onChange={handleChangeUsername}
           sx={{
@@ -142,7 +142,7 @@ const GameConfig = () => {
           sx={{
             fontFamily: "Silkscreen",
             bgcolor: "black",
-            height:39
+            height: 39,
           }}
         >
           Create
