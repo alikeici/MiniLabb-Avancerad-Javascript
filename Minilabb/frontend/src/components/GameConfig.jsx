@@ -88,6 +88,8 @@ const GameConfig = () => {
         width: 500,
         border: 5,
         borderRadius: 5,
+        borderColor: "red",
+        bgcolor: "antiquewhite",
       }}
     >
       <Typography
@@ -98,6 +100,7 @@ const GameConfig = () => {
           mt: 2,
           fontSize: 28,
           fontFamily: "Silkscreen",
+          color: "black",
         }}
       >
         Welcome to Insider
@@ -141,7 +144,8 @@ const GameConfig = () => {
           onClick={handleSave}
           sx={{
             fontFamily: "Silkscreen",
-            bgcolor: "black",
+            bgcolor: "red",
+            color: "black",
             height: 39,
           }}
         >
@@ -164,6 +168,7 @@ const GameConfig = () => {
             fontFamily: "Silkscreen",
             bgcolor: "red",
             color: "black",
+            width: 142,
           }}
         >
           New Game

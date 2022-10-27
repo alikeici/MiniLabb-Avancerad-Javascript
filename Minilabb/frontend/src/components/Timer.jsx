@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 const Timer = () => {
   const Ref = useRef(null);
 
-  const [timer, setTimer] = useState("00:00");
+  const [timer, setTimer] = useState();
 
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());
@@ -51,7 +51,7 @@ const Timer = () => {
 
   return (
     <Box>
-      <Typography>{timer}</Typography>
+      <Typography sx={{fontFamily:"silkscreen", fontSize:30}}>{timer}</Typography>
     </Box>
   );
 };
