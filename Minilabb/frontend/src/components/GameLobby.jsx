@@ -10,6 +10,7 @@ const GameLobby = () => {
   const [showButton, setShowButton] = useState(true);
   const [role, setRole] = useState();
   const [currentWord, setCurrentWord] = useState();
+  const [show, setShow] = useState(false);
 
   const { id, username } = useParams();
   const gameUrl = `http://localhost:5000/game/`;
@@ -90,7 +91,9 @@ const GameLobby = () => {
     user.role = u.role;
 
     return (
-      <Box sx={{ fontFamily: "silkscreen" }}>Your role is {user.role}</Box>
+      <Box sx={{ fontFamily: "silkscreen", fontSize: 24, color: "black" }}>
+        Your role is {user.role}
+      </Box>
     );
   };
 
@@ -111,12 +114,12 @@ const GameLobby = () => {
         <Box
           sx={{
             color: "red",
-            fontSize: 26,
+            fontSize: 24,
             margin: "auto",
             fontFamily: "silkscreen",
           }}
         >
-          Secret word: {currentWord}
+          Current word: {currentWord}
         </Box>
       );
   };
@@ -124,23 +127,34 @@ const GameLobby = () => {
   const IsMaster = () => {
     if (user.role === "Master") {
       return (
-        <Button
-          sx={{
-            ":hover": { bgcolor: "rgb(38, 50, 56)" },
-            width: 150,
-            bgcolor: "red",
-            margin: "auto",
-            fontFamily: "silkscreen",
-          }}
-          variant="contained"
-          onClick={handleChooseWord}
-        >
-          Choose Word
-        </Button>
+        <Box>
+          {!show ? (
+            <Button
+              sx={{
+                ":hover": { bgcolor: "black" },
+                width: 150,
+                color: "white",
+                bgcolor: "black",
+                fontFamily: "silkscreen",
+              }}
+              variant="contained"
+              onClick={() => {
+                handleChooseWord();
+                hideButton();
+              }}
+            >
+              Choose Word
+            </Button>
+          ) : null}
+        </Box>
       );
     } else {
       return false;
     }
+  };
+
+  const hideButton = () => {
+    setShow(true);
   };
 
   const isHost = () => {
@@ -175,9 +189,11 @@ const GameLobby = () => {
         variant="contained"
         sx={{
           ":hover": { bgcolor: "rgb(38, 50, 56)" },
-          width: 140,
-          bgcolor: "red",
+          width: 150,
+          bgcolor: "black",
+          color: "antiquewhite",
           fontFamily: "silkscreen",
+          mb: 1,
         }}
         onClick={() => {
           handleStartGame();
@@ -194,7 +210,14 @@ const GameLobby = () => {
     return (
       <Button
         variant="contained"
-        sx={{ width: 140, bgcolor: "red", fontFamily: "silkscreen" }}
+        sx={{
+          ":hover": { bgcolor: "rgb(38, 50, 56)" },
+          width: 150,
+          mb: 1,
+          mt: 2,
+          bgcolor: "black",
+          fontFamily: "silkscreen",
+        }}
         onClick={() => {
           handleEndGame();
           setShowButton(true);
@@ -209,99 +232,111 @@ const GameLobby = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        mt: 15,
+        margin: "auto",
+        mt: 1,
+        height: 680,
+        width: 500,
+        border: 5,
+        borderRadius: 5,
+        borderColor: "red",
+        bgcolor: "antiquewhite",
       }}
     >
       <Box
         sx={{
           display: "flex",
-          alignItems: "center",
+          justifyContent: "center",
           flexDirection: "column",
-          margin: "auto",
-          fontFamily: "silkscreen",
-        }}
-      >
-        <Box>
-          <Typography
-            color={"red"}
-            variant="h5"
-            fontSize={34}
-            fontWeight="bold"
-            fontFamily={"silkscreen"}
-            sx={{ py: 2.5 }}
-          >
-            WELCOME TO THE GAME
-          </Typography>
-        </Box>
-
-        <Typography
-          sx={{
-            fontFamily: "silkscreen",
-            fontSize: 20,
-            mb: 1,
-            color: "white",
-          }}
-        >
-          Players
-        </Typography>
-
-        <Box sx={{ mb: 1 }}>
-          {lobbyUsers.map((user) => (
-            <Box
-              sx={{
-                pr: 2,
-                pl: 2,
-                border: 3,
-                borderColor: "red",
-                color: "whitesmoke",
-              }}
-              key={user.user_id}
-            >
-              {user.username}
-            </Box>
-          ))}
-        </Box>
-      </Box>
-
-      <Box
-        sx={{
-          margin: "auto",
           mt: 1,
         }}
       >
-        {isHost() ? (showButton ? startGame() : endGame()) : null}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            margin: "auto",
+            fontFamily: "silkscreen",
+          }}
+        >
+          <Box>
+            <Typography
+              color={"black"}
+              fontSize={28}
+              fontWeight="bold"
+              fontFamily={"silkscreen"}
+              sx={{ py: 2.5 }}
+            >
+              WELCOME TO THE GAME
+            </Typography>
+          </Box>
 
-        <IsMaster margin={"auto"} />
-      </Box>
+          <Typography
+            sx={{
+              fontFamily: "silkscreen",
+              fontSize: 24,
+              mb: 1,
+              color: "red",
+            }}
+          >
+            Players:
+          </Typography>
 
-      <Box
-        sx={{
-          margin: "auto",
-          mt: 4,
-        }}
-      >
+          <Box sx={{ mb: 1 }}>
+            {lobbyUsers.map((user) => (
+              <Box
+                sx={{
+                  pr: 2,
+                  pl: 2,
+                  border: 3,
+                  borderColor: "black",
+                  color: "red",
+                  fontSize: 22,
+                }}
+                key={user.user_id}
+              >
+                {user.username}
+              </Box>
+            ))}
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            margin: "auto",
+            mt: 2,
+          }}
+        >
+          <Box
+            sx={{
+              fontSize: 30,
+              color: "rgb(238, 238, 238)",
+            }}
+          >
+            {role ? showRole() : null}
+          </Box>
+          <Box
+            sx={{
+              fontFamily: "silkscreen",
+              fontSize: 20,
+            }}
+          >
+            <NotHost />
+          </Box>
+        </Box>
+        <ShowWord />
         {gameStarted()}
         <Box
           sx={{
-            fontSize: 30,
-            color: "rgb(238, 238, 238)",
+            margin: "auto",
+            mt: 1,
           }}
         >
-          {role ? showRole() : null}
-        </Box>
-        <Box
-          sx={{
-            fontFamily: "silkscreen",
-            fontSize: 20,
-          }}
-        >
-          <NotHost />
+          {isHost() ? (showButton ? startGame() : endGame()) : null}
+
+          <IsMaster margin={"auto"} />
         </Box>
       </Box>
-      <ShowWord />
     </Box>
   );
 };
