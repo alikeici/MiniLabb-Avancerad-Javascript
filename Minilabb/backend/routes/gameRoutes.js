@@ -27,13 +27,19 @@ route.get("/:id", async (req, res) => {
   res.json(game);
 });
 
-route.post("/", async (req, res) => {
+route.post("/:username/create", async (req, res) => {
   const game = await prisma.game.create({
     data: {
       host: req.params.username,
       isActive: true,
-      gameStart: false
-    },
+      gameStart: false,
+      role: false,
+      currentWord: "",
+      user: {
+        connect: {
+          username: req.params.username,
+        },
+    }},
   });
   res.json(game);
 });

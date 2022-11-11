@@ -2,14 +2,15 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import imageInsider from "./InsiderGame.avif";
+import Game from "./Game";
 
 const GameConfig = () => {
-  const gameUrl = `http://localhost:5000/game/`;
   const userUrl = `http://localhost:5000/user/`;
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [gameId, setGameId] = useState("");
+  const gameUrl = `http://localhost:5000/game/`;
 
   const handleChangeUsername = (event) => {
     setUsername(event.target.value);
@@ -29,54 +30,20 @@ const GameConfig = () => {
       body: JSON.stringify(data),
     });
   };
-  const handleHostGame = async () => {
-    const data = {
-      host: username,
-      isActive: true,
-    };
 
-    const result = await fetch(`${userUrl}${username}/create`, {
-      method: "PATCH",
+  const handleHostGame = async () => {
+    const result = await fetch(`${gameUrl}${username}/create`, {
+      method: "POST",
       headers: { "Content-type": "application/join" },
-      body: JSON.stringify(data),
     });
+    const jsonResult = await result.json();
     if (result.status === 200) {
       console.log("true");
       console.log(result);
-      navigate(`/${username}/game/${gameId}`);
+      navigate(`/${username}/game/${jsonResult.game_id}`);
     } else {
       console.log("false");
     }
-  };
-
-  const handleJoinGame = () => {
-    const userGameId = prompt("Enter game id:");
-    setGameId(userGameId);
-
-    const getLobbyData = async () => {
-      const results = await fetch(`${gameUrl}${userGameId}`);
-      const jsonResults = await results.json();
-      console.log(jsonResults.isActive);
-      console.log(jsonResults.gameStart);
-
-      if (jsonResults.isActive /* && !jsonResults.gameStart */) {
-        const result = await fetch(`${userUrl}${username}/join/${userGameId}`, {
-          method: "PATCH",
-          headers: { "Content-type": "application/join" },
-        });
-        if (result.status === 200) {
-          console.log("true");
-          console.log(result);
-          navigate(`/${username}/game/${userGameId}`);
-        } else {
-          console.log("false");
-        }
-      } else {
-        alert("Game is not active");
-      }
-    };
-
-    getLobbyData();
   };
 
   return (
@@ -173,18 +140,13 @@ const GameConfig = () => {
         >
           New Game
         </Button>
-        <Button
-          variant="contained"
-          onClick={handleJoinGame}
-          sx={{
-            fontFamily: "Silkscreen",
-            bgcolor: "red",
-            color: "black",
-            ml: 2,
-          }}
-        >
-          Join Game
-        </Button>
+        <Game
+          setGameId={setGameId}
+          userUrl={userUrl}
+          gameUrl={gameUrl}
+          username={username}
+          navigate={navigate}
+        />
       </Box>
     </Box>
   );
