@@ -44,7 +44,7 @@ route.patch("/:username/join/:id", async (req, res) => {
   res.json(userJoin);
 });
 route.patch("/:username/create", async (req, res) => {
-  const userJoin = await prisma.user.update({
+  const userCreate = await prisma.user.update({
     where: {
       username: req.params.username,
     },
@@ -55,12 +55,12 @@ route.patch("/:username/create", async (req, res) => {
           isActive: true,
           gameStart: false,
           role: false,
-          currentWord: ""
+          currentWord: "",
         },
       },
     },
   });
-  res.json(userJoin);
+  res.json(userCreate);
 });
 
 route.patch("/:username/role", async (req, res) => {
